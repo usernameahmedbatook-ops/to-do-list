@@ -9,18 +9,29 @@ import Ending from './compontens/Ending'
 import Addtask from './compontens/Addtask'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
       <div>
-        <Heading/>
-        <Addtask/>
-        <Taskadder/>
-        <Ending/>
-       </div>
+        <Heading />
+        
+        <Addtask />
+        <Taskadder  />
+        <Ending />
+      </div>
+
+
     </>
   )
 }
+
+
+
+
+
+
+
+
+
 
 export default App

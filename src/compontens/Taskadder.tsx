@@ -1,32 +1,24 @@
+import { useState } from "react";
 const Taskadder = () => {
-    interface Form {
-
-    }
-    return <>
+    const [checked, setChecked] = useState(false);
 
 
+    return (
+        <div className="row">
 
-        <div className="form-floating mb-3">
-            <input type="checkbox" className="form-control" id="floatingInput" />
-            <label> this is an example of task #1</label>
+            <input
+                className="col"
+                type="checkbox"
+                checked={checked}
+                onChange={() => setChecked(!checked)}
+            />
+            <p className={`col ${checked ? "text-decoration-line-through" : ""}`}>
+                this is an example of task #1.
+            </p>
         </div>
-        <div className="form-floating mb-3">
-            <input type="checkbox" className="form-control" id="floatingInput" />
-            <label> this is an example of task #2</label>
-        </div>
-        <div className="form-floating mb-3">
-            <input type="checkbox" className="form-control" id="floatingInput" />
-            <label> this is an example of task #3</label>
-        </div>
-        <div className="form-floating mb-3">
-            <input type="checkbox" className="form-control" id="floatingInput" />
-            <label> this is an example of task #4</label>
-        </div>
-        <div className="form-floating mb-3">
-            <input type="checkbox" className="form-control" id="floatingInput" />
-            <label> this is an example of task #5</label>
-        </div>
-    </>
+    );
+
+
 
 }
 
