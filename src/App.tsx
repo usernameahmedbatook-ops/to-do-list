@@ -10,6 +10,7 @@ import Addtask from './compontens/Addtask'
 import Adder from './compontens/Adder'
 import Forms from './compontens/Forms'
 
+
 function App() {
 
   return (
@@ -21,6 +22,7 @@ function App() {
         <Adder />
         <Taskadder />
         <Ending />
+      
       
       </div>
 
