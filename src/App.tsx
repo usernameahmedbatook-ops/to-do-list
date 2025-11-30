@@ -7,6 +7,8 @@ import Heading from './compontens/heading'
 import Taskadder from './compontens/Taskadder'
 import Ending from './compontens/Ending'
 import Addtask from './compontens/Addtask'
+import Adder from './compontens/Adder'
+import Forms from './compontens/Forms'
 
 function App() {
 
@@ -14,10 +16,12 @@ function App() {
     <>
       <div>
         <Heading />
-        
+        <Forms />
         <Addtask />
-        <Taskadder  />
+        <Adder />
+        <Taskadder />
         <Ending />
+      
       </div>
 
 

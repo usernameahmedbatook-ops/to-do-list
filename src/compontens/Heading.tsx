@@ -3,7 +3,7 @@ const Heading = () => {
 return<>
 
 
-<h1>your to do</h1>
+ <h2>My To-Do List</h2>
 
 
 </>
