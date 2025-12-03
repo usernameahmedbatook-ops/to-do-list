@@ -9,6 +9,7 @@ import Ending from './compontens/Ending'
 import Addtask from './compontens/Addtask'
 import Adder from './compontens/Adder'
 import Forms from './compontens/Forms'
+import Pagination from './compontens/pagination'
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Adder />
         <Taskadder />
         <Ending />
+        <Pagination />
       
       
       </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Pagination from "./pagination";
 
 interface ITask {
   id?: number;
@@ -11,6 +12,17 @@ interface ITask {
 function TodoApp() {
   const [tasks, setTasks] = useState<ITask[]>([]);
   const [input, setInput] = useState("");
+  const [search, setSearch] = useState(""); // ⭐ SEARCH STATE
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const tasksPerPage = 5;
+
+  // ⭐ FILTER TASKS BASED ON SEARCH
+  const filteredTasks = tasks.filter((task) =>
+    task.text.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredTasks.length / tasksPerPage);
 
   useEffect(() => {
     fetch("http://localhost:3000/tasks")
@@ -52,6 +64,13 @@ function TodoApp() {
     toast.info(`Task "${removedTask.text}" removed successfully!`);
   };
 
+  // --- Pagination Logic (AFTER filtering!) ---
+  const startIndex = (currentPage - 1) * tasksPerPage;
+  const currentTasks = filteredTasks.slice(
+    startIndex,
+    startIndex + tasksPerPage
+  );
+
   return (
     <div
       style={{
@@ -91,7 +110,27 @@ function TodoApp() {
           <span style={{ color: "#007bff" }}>{remainingCount}</span>
         </h3>
 
-        {/* Responsive Input Section */}
+        {/* ⭐ Search Bar */}
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setCurrentPage(1); // Always go back to page 1 when searching
+          }}
+          placeholder="Search tasks..."
+          style={{
+            width: "100%",
+            padding: "12px",
+            marginBottom: "20px",
+            borderRadius: "8px",
+            border: "1px solid #ccc",
+            outline: "none",
+            fontSize: "15px",
+          }}
+        />
+
+        {/* Input */}
         <div
           style={{
             display: "flex",
@@ -132,11 +171,11 @@ function TodoApp() {
           </button>
         </div>
 
-        {/* Task List */}
+        {/* Task List (Filtered + Paginated) */}
         <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-          {tasks.map((task, index) => (
+          {currentTasks.map((task, index) => (
             <li
-              key={index}
+              key={startIndex + index}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -151,7 +190,7 @@ function TodoApp() {
               <input
                 type="checkbox"
                 checked={task.completed}
-                onChange={() => toggleTask(index)}
+                onChange={() => toggleTask(startIndex + index)}
                 style={{
                   width: "18px",
                   height: "18px",
@@ -171,7 +210,7 @@ function TodoApp() {
               </span>
 
               <button
-                onClick={() => removeTask(index)}
+                onClick={() => removeTask(startIndex + index)}
                 style={{
                   background: "#dc3545",
                   color: "white",
@@ -188,7 +227,13 @@ function TodoApp() {
           ))}
         </ul>
 
-        {/* Toast notifications */}
+        {/* Pagination (works with search!) */}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+
         <ToastContainer
           position="top-right"
           autoClose={4000}
@@ -200,49 +245,6 @@ function TodoApp() {
           transition={Bounce}
         />
       </div>
-
-      {/* 🔥 Mobile & tablet responsive styles */}
-      <style>
-        {`
-          @media (max-width: 600px) {
-            div {
-              padding: 10px !important;
-            }
-
-            input {
-              font-size: 14px !important;
-              padding: 10px !important;
-            }
-
-            button {
-              font-size: 14px !important;
-              padding: 10px !important;
-            }
-
-            li {
-              padding: 10px !important;
-            }
-
-            h2 {
-              font-size: 22px !important;
-            }
-
-            h3 {
-              font-size: 16px !important;
-            }
-          }
-
-          @media (max-width: 400px) {
-            button {
-              width: 100% !important;
-            }
-
-            div[style*="flex-wrap"] {
-              flex-direction: column !important;
-            }
-          }
-        `}
-      </style>
     </div>
   );
 }
